@@ -21,7 +21,7 @@ def get_loaders(train_dir, train_maskdir, val_dir, val_maskdir, batch_size, trai
     return train_loader, val_loader
 
 
-def check_accuracy(loader, model, device="cuda"):
+def check_accuracy(loader, model, device="cuda:0"):
     num_correct = 0
     num_pixels = 0
     dice_score = 0
@@ -39,14 +39,14 @@ def check_accuracy(loader, model, device="cuda"):
             num_pixels += torch.numel(preds)
             dice_score += (2 * (preds * y).sum()) / ((preds + y).sum() + 1e-8)
 
-    print(f"Got {num_correct}/{num_pixels} with acc: {num_correct/num_pixels*100.0:.2f}")
+    print(f"Got {num_correct}/{num_pixels} with acc: {(num_correct / num_pixels):.2f}")
     print(f"Dice score: {dice_score/len(loader)}")
 
     # reset
     model.train()
 
 
-def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda"):
+def save_predictions_as_imgs(loader, model, folder="../saved_images/", device="cuda:0"):
     model.eval()
 
     for idx, (x, y) in enumerate(loader):
@@ -56,6 +56,6 @@ def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda
             preds = (preds > 0.5).float()
 
         torchvision.utils.save_image(preds, f"{folder}/pred_{idx}.png")
-        torchvision.utils.save_image(y.unsqueeze(1), f"{folder}{idx}.png")
+        torchvision.utils.save_image(y.unsqueeze(1), f"{folder}/{idx}.png")
 
     model.train()

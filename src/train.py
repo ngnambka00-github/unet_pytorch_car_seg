@@ -16,7 +16,7 @@ from utils import (
 
 # Hyperparameters
 LEARNING_RATE = 1e-4
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 32
 NUM_EPOCHS = 100
 NUM_WORKERS = 2
@@ -115,7 +115,7 @@ def main():
         check_accuracy(val_loader, model, device=DEVICE)
 
         # print some examples to a folder
-        save_predictions_as_imgs(val_loader, model, folder="saved_images/", device=DEVICE)
+        save_predictions_as_imgs(val_loader, model, folder="../saved_images/", device=DEVICE)
 
 
 if __name__ == "__main__":
