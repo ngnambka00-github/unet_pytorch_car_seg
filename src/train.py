@@ -1,4 +1,6 @@
-import enum
+import warnings
+warnings.filterwarnings('ignore')
+
 import torch
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
@@ -17,7 +19,7 @@ from utils import (
 # Hyperparameters
 LEARNING_RATE = 1e-4
 DEVICE = "cuda:0" if torch.cuda.is_available() else "cpu"
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 NUM_EPOCHS = 100
 NUM_WORKERS = 2
 IMAGE_HEIGHT = 160 # 1280 originally
